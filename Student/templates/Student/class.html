@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="submit">
+    </form>
+    {% for d in data %}
+    <hr>
+    Department:-{{d.department}}<br>
+    Session:-{{d.session_id}}<br>
+    Course:-{{d.course_id}}<br>
+    Year:-{{d.year_id}}<br>
+    <a href="{% url 'updateclass' d.id %}">update click</a>
+    {% endfor %}
+</body>
+</html>

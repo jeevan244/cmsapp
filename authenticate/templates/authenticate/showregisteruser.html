@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registerusers</title>
+    <style>
+        table, tr, th, td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>First_Name</th>
+            <th>Last_Name</th>
+            <th>Email</th>
+            <th>Usertype</th>
+            <th>Line1</th>
+            <th>Line2</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Pincode</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Role_number</th>
+            <th>update</th>
+        </tr>
+    {% for d in data %}
+    <tr>
+    <td>{{d.user.username}}</td>
+    <td>{{d.user.first_name}}</td>
+    <td>{{d.user.last_name}}</td>
+    <td>{{d.user.email}}</td>
+    <td>{{d.usertype}}</td>
+        {% for i in d.user.customuser.addresses.all %}
+    <td>{{i.line_1}}</td>
+    <td>{{i.line_2}}</td>
+    <td>{{i.state}}</td>
+    <td>{{i.city}}</td>
+    <td>{{i.pincode}}</td>
+        {% endfor %}
+    <td>{{d.user.customuser.student.gender}}</td>
+    <td>{{d.user.customuser.student.phone}}</td>
+    <td>{{d.user.customuser.student.role_number}}</td>
+    <td><a href="#">update click</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+
+
+     
+
+    {% comment %} {% for d in data %}
+    <hr>
+    Username:-{{d.user.username}}<br>
+    First_Name:-{{d.user.first_name}}<br>
+    Last_Name:-{{d.user.last_name}}<br>
+    Email:-{{d.user.email}}<br>
+    Usertype:-{{d.user.customuser.usertype}}<br>
+
+    {% for i in d.user.customuser.addresses.all %}
+    Line1:-{{i.line_1}}<br>
+    Line2:-{{i.line_2}}<br>
+    State:-{{i.state}}<br>
+    City:-{{i.city}}<br>
+    Pincode:-{{i.pincode}}<br>
+    {% endfor %}
+
+    Gender:-{{d.user.customuser.student.gender}}<br>
+    Phone:-{{d.user.customuser.student.phone}}<br>
+    Role_number:-{{d.user.customuser.student.role_number}}<br>
+
+
+    {% endfor %} {% endcomment %}
+</body>
+</html>

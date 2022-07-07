@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student details</title>
+</head>
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" value="submit">
+    {% for d in data %}
+    <hr>
+    Usertype:-{{d.user_type}}<br>
+    Gender:-{{d.gender}}<br>
+    Role_Number:-{{d.role_number}}<br>
+    Mobile:-{{d.phone}}<br>
+    Blood-group:-{{d.blood_group}}<br>
+    <a href="{% url 'updatestudent' d.id %}">update click</a>
+    {% endfor %}
+</form>
+</body>
+</html>
