@@ -26,7 +26,7 @@
             <td>{{f.year_id}}</td>
             <td>{{f.course_id}}</td>
             <td>{{f.session_id}}</td>
-            <td>{{f.class.student_id}}</td>
+            <td>{{f.student_id.all}}</td>
             <td> <a href="{% url 'updateclass' f.id %}">update click</a></td>
         </tr>
         {% endfor %}

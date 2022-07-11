@@ -18,7 +18,7 @@ class Student(models.Model):
     blood_group=models.CharField(max_length=20)
 
     def __str__(self):
-        return self.role_number
+        return self.user_type.user.username+ " " + str(self.role_number)
 
 
 class Address(models.Model):
@@ -56,7 +56,7 @@ class Session(models.Model):
     end_year=models.CharField(max_length=8)
 
     def __str__(self):
-        return self.start_year
+        return str(self.start_year)+ "-" + str(self.end_year)
 
 
 class Class(models.Model):
@@ -69,10 +69,18 @@ class Class(models.Model):
 
     department = models.CharField(max_length=5, choices=department_choice, default='ME')
 
-    student_id=models.ForeignKey(Student, on_delete=models.CASCADE, related_name='classes')
+    course=models.ForeignKey(Course, on_delete=models.CASCADE, related_name='classes')
 
-    course_id=models.ForeignKey(Course, on_delete=models.CASCADE, related_name='classes')
+    session=models.ForeignKey(Session, on_delete=models.CASCADE, related_name='classes')
 
-    session_id=models.ForeignKey(Session, on_delete=models.CASCADE, related_name='classes')
+    year_choice=(
+        ('1st year','1st year'),
+        ('2nd year','2nd year'),
+        ('3rd year','3rd year'),
+        ('4th year','4th year'),
+    )
 
-    year_id=models.CharField(max_length=10,default='1st year')
+    year = models.CharField(max_length=9, choices=year_choice, default ='1st year')
+
+    def __str__(self):
+        return f"{self.department} {self.year_id}"
