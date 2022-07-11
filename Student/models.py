@@ -83,4 +83,11 @@ class Class(models.Model):
     year = models.CharField(max_length=9, choices=year_choice, default ='1st year')
 
     def __str__(self):
-        return f"{self.department} {self.year_id}"
+        return f"{self.department} {self.year}"
+
+
+class Student_class_mapper(models.Model):
+    student=models.ForeignKey(Student, on_delete=models.CASCADE, related_name='mapper')
+    student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mapper')
+
+
