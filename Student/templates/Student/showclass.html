@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, tr, th, td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>department</th>
+            <th>year</th>
+            <th>course</th>
+            <th>session</th>
+            <th>student</th>
+        </tr>
+        {% for f in  form %}
+        <tr>
+            <td>{{f.department}}</td>
+            <td>{{f.year_id}}</td>
+            <td>{{f.course_id}}</td>
+            <td>{{f.session_id}}</td>
+            <td>{{f.class.student_id}}</td>
+            <td> <a href="{% url 'updateclass' f.id %}">update click</a></td>
+        </tr>
+        {% endfor %}
+    </table>

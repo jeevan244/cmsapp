@@ -15,8 +15,12 @@ def student(request):
 
     else:
         student_form=Studentform()
+    return render(request,'Student/student.html',{'form':student_form})
+
+def showstudent(request):
     showdata=Student.objects.all()
-    return render(request,'Student/student.html',{'form':student_form,'data':showdata})
+    return render(request,'Student/showstudent.html',{'form':showdata})
+
 
 def updatestudent(request,my_id):
     if request.method=="POST":
@@ -25,7 +29,7 @@ def updatestudent(request,my_id):
         if update_form.is_valid():
             update_student=update_form.save(commit=False)
             update_student=update_form.save()
-            return HttpResponseRedirect('/studentpath/student')
+            return HttpResponseRedirect('/studentpath/showstudent')
 
     else:
         update_student=Student.objects.get(pk=my_id)
@@ -42,8 +46,12 @@ def address(request):
 
     else:
         address_form=Addressform()
-    showdata=Address.objects.all()
+    # showdata=Address.objects.all()
     return render(request,'Student/address.html',{'form':address_form,'data':showdata})
+
+def showaddress(request):
+    showdata=Address.objects.all()
+    return render(request,'Student/showaddress.html',{'form':showdata})
 
 
 def updateaddress(request,my_id):
@@ -53,7 +61,7 @@ def updateaddress(request,my_id):
         if update_form.is_valid():
             update_address=update_form.save(commit=False)
             update_address=update_form.save()
-            return HttpResponseRedirect('/studentpath/address')
+            return HttpResponseRedirect('/studentpath/showaddress')
 
     else:
         update_address=Address.objects.get(pk=my_id)
@@ -69,8 +77,13 @@ def course(request):
             course_form=Courseform()
     else:
         course_form=Courseform()
-    show_data=Course.objects.all()
+    # show_data=Course.objects.all()
     return render(request,'Student/course.html',{'form':course_form, 'data':show_data})
+
+
+def showcourse(request):
+    showdata=Course.objects.all()
+    return render(request,'Student/showcourse.html',{'form':showdata})
 
 
 def updatecourse(request,my_id):
@@ -80,7 +93,7 @@ def updatecourse(request,my_id):
         if update_form.is_valid():
             update_course=update_form.save(commit=False)
             update_course=update_form.save()
-            return HttpResponseRedirect('/studentpath/course')
+            return HttpResponseRedirect('/studentpath/showcourse')
 
     else:
         update_course=Course.objects.get(pk=my_id)
@@ -98,8 +111,12 @@ def session(request):
 
     else:
         session_form=Sessionform()
-    show_data=Session.objects.all()
+    # show_data=Session.objects.all()
     return render(request,'Student/session.html',{'form':session_form, 'data':show_data})
+
+def showsession(request):
+    showdata=Session.objects.all()
+    return render(request,'Student/showsession.html',{'form':showdata})
 
 
 def updatesession(request,my_id):
@@ -109,7 +126,7 @@ def updatesession(request,my_id):
         if update_form.is_valid():
             update_session=update_form.save(commit=False)
             update_session=update_form.save()
-            return HttpResponseRedirect('/studentpath/session')
+            return HttpResponseRedirect('/studentpath/showsession')
 
     else:
         update_session=Session.objects.get(pk=my_id)
@@ -128,6 +145,10 @@ def studentclass(request):
     show_data=Class.objects.all()
     return render(request,'Student/class.html',{'form':class_form, 'data':show_data})
 
+def showclass(request):
+    showdata=Class.objects.all()
+    return render(request,'Student/showclass.html',{'form':showdata})
+
 def updateclass(request,my_id):
         if request.method=="POST":
             update_class=Class.objects.get(pk=my_id)
@@ -135,7 +156,7 @@ def updateclass(request,my_id):
             if update_form.is_valid():
                 update_class=update_form.save(commit=False)
                 update_class=update_form.save()
-                return HttpResponseRedirect('/studentpath/class')
+                return HttpResponseRedirect('/studentpath/showclass')
 
         else:
             update_class=Class.objects.get(pk=my_id)
