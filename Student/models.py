@@ -76,3 +76,4 @@ class Class(models.Model):
     session_id=models.ForeignKey(Session, on_delete=models.CASCADE, related_name='classes')
 
     year_id=models.CharField(max_length=10,default='1st year')
+kjzdkhfvxkbcvckcx
