@@ -1,5 +1,6 @@
 from django.db import models
 from authenticate.models import Customuser
+from Teacher.models import Teacher
 # Create your models here.
 
 class Student(models.Model):
@@ -89,5 +90,15 @@ class Class(models.Model):
 class Student_class_mapper(models.Model):
     student=models.ForeignKey(Student, on_delete=models.CASCADE, related_name='mapper')
     student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mapper')
+
+
+class Subject(models.Model):
+    subject_name=models.CharField(max_length=100)
+    subject_code=models.IntegerField()
+    subject_teacher=models.ForeignKey(Teacher, on_delete=models.CASCADE,related_name='subject')
+    student_class=models.ForeignKey(Class, on_delete=models.CASCADE,related_name='subject')
+
+    def __str__(self):
+        return self.subject_name
 
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table, tr, th, td{
+            border: 1px solid black;
+        }
+    </style>
+    <title>Teacher</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>gender</th>
+            <th>department</th>
+            <th>phone</th>
+        </tr>
+        {% for f in form %}
+        <tr>
+            <td>{{f.gender}}</td>
+            <td>{{f.department}}</td>
+            <td>{{f.phone}}</td>
+            <td> <a href="{% url 'updateteacher' f.id %}">update click</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

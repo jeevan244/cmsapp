@@ -1,6 +1,6 @@
 from django import forms
 from authenticate.forms import UserregisterForm
-from .models import Student, Address, Course, Session, Class, Student_class_mapper
+from .models import Student, Address, Course, Session, Class, Student_class_mapper, Subject
 
 class Studentform(forms.ModelForm):
     class Meta:
@@ -36,4 +36,9 @@ class Classform(forms.ModelForm):
 class Studentmapper(forms.ModelForm):
     class Meta:
         model=Student_class_mapper
+        fields= '__all__'
+
+class Subjectform(forms.ModelForm):
+    class Meta:
+        model=Subject
         fields= '__all__'
