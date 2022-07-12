@@ -13,11 +13,5 @@
         {{form|crispy}}
         <input type="submit" value="submit">
     </form>
-    {% for d in data %}
-    <hr>
-    start_year:-{{d.start_year}}<br>
-    end_year:-{{d.end_year}}<br>
-    <a href="{% url 'updatesession' d.id %}">update click</a>
-    {% endfor %}
 </body>
 </html>

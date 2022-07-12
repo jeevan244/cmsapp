@@ -14,16 +14,5 @@
         {{customform|crispy}}
         <input type="submit" value="submit">
     </form>
-    <hr>
-    {% comment %} {% for d in data %}
-    <hr>
-   Username:-{{ d.user.username}}<br>
-   First_name:-{{d.user.first_name}}<br>
-   Last_name:-{{d.user.last_name}}<br>
-   Email:-{{d.user.email}}<br>
-   user_type:-{{d.usertype}}
-    <a href="{% url 'delete' d.id %}">delete click</a>
-    <a href="{% url 'update' d.id %}">update click</a>
-    {%endfor%}  {% endcomment %}
 </body>
 </html>

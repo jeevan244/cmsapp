@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <style>
         table, tr, th, td{
             border: 1px solid black;
         }
     </style>
+    <title>Teacher</title>
 </head>
 <body>
     <table>
         <tr>
+            <th>gender</th>
             <th>department</th>
-            <th>year</th>
-            <th>course</th>
-            <th>session</th>
+            <th>phone</th>
         </tr>
-        {% for f in  form %}
+        {% for f in form %}
         <tr>
+            <td>{{f.gender}}</td>
             <td>{{f.department}}</td>
-            <td>{{f.year}}</td>
-            <td>{{f.course}}</td>
-            <td>{{f.session}}</td>
-            <td> <a href="{% url 'updateclass' f.id %}">update click</a></td>
+            <td>{{f.phone}}</td>
+            <td> <a href="{% url 'updateteacher' f.id %}">update click</a></td>
         </tr>
         {% endfor %}
     </table>
+</body>
+</html>

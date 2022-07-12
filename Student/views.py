@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import Studentform,Addressform,Courseform,Sessionform,Classform
-from .models import Student,Address,Course,Session,Class
+from .models import Student,Address,Course,Session,Class, Student_class_mapper
 from django.contrib import messages
 # Create your views here.
 
@@ -46,7 +46,6 @@ def address(request):
 
     else:
         address_form=Addressform()
-    # showdata=Address.objects.all()
     return render(request,'Student/address.html',{'form':address_form,'data':showdata})
 
 def showaddress(request):
@@ -77,7 +76,6 @@ def course(request):
             course_form=Courseform()
     else:
         course_form=Courseform()
-    # show_data=Course.objects.all()
     return render(request,'Student/course.html',{'form':course_form, 'data':show_data})
 
 
@@ -111,7 +109,6 @@ def session(request):
 
     else:
         session_form=Sessionform()
-    # show_data=Session.objects.all()
     return render(request,'Student/session.html',{'form':session_form, 'data':show_data})
 
 def showsession(request):
@@ -142,7 +139,6 @@ def studentclass(request):
             class_form=Classform()
     else:
         class_form=Classform()
-    show_data=Class.objects.all()
     return render(request,'Student/class.html',{'form':class_form, 'data':show_data})
 
 def showclass(request):
@@ -162,3 +158,36 @@ def updateclass(request,my_id):
             update_class=Class.objects.get(pk=my_id)
             update_form=Classform(instance=update_class)
         return render(request,'Student/updateclass.html',{'form':update_form})
+
+def studentmapper(request):
+    showdata=Student_class_mapper.objects.all()
+    return render(request,'Student/studentmapper.html',{'form':showdata})
+
+
+def subject(request):
+    if request.method=="POST":
+        subject_form=Subjectform(request.POST)
+        if subject_form.is_valid():
+            subject_form.save()
+            subject_form=Subjectform()
+    else:
+        Subject_form=Subjectform()
+    return render(request,'Student/subject.html',{'form':subject_form})
+
+def showsubject(request):
+    showdata=Subject.objects.all()
+    return render(request,'Student/showsubject.html',{'form':showdata})
+
+def updatesubject(request,my_id):
+        if request.method=="POST":
+            update_subject=Subject.objects.get(pk=my_id)
+            update_form=Subjectform(request.POST,instance=update_class)
+            if update_form.is_valid():
+                update_subject=update_form.save(commit=False)
+                update_subject=update_form.save()
+                return HttpResponseRedirect('/studentpath/showsubject')
+
+        else:
+            update_subject=Subject.objects.get(pk=my_id)
+            update_form=Subjectform(instance=update_class)
+        return render(request,'Student/updatesubject.html',{'form':update_form})

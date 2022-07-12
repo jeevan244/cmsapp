@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+<!DOCTYPE html> 
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
 <body>
     <form action="" method="POST">
         {% csrf_token %}
-        {{form}}
+          {{form|crispy}}
         <input type="submit" value="save">
     </form>
 </body>
