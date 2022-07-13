@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import Studentform,Addressform,Courseform,Sessionform,Classform
-from .models import Student,Address,Course,Session,Class, Student_class_mapper
+from .forms import Studentform,Addressform,Courseform,Sessionform,Classform,Subjectform
+from .models import Student,Address,Course,Session,Class, Student_class_mapper,Subject
 from django.contrib import messages
 # Create your views here.
 
@@ -171,7 +171,7 @@ def subject(request):
             subject_form.save()
             subject_form=Subjectform()
     else:
-        Subject_form=Subjectform()
+        subject_form=Subjectform()
     return render(request,'Student/subject.html',{'form':subject_form})
 
 def showsubject(request):
@@ -181,7 +181,7 @@ def showsubject(request):
 def updatesubject(request,my_id):
         if request.method=="POST":
             update_subject=Subject.objects.get(pk=my_id)
-            update_form=Subjectform(request.POST,instance=update_class)
+            update_form=Subjectform(request.POST,instance=update_subject)
             if update_form.is_valid():
                 update_subject=update_form.save(commit=False)
                 update_subject=update_form.save()
@@ -189,5 +189,5 @@ def updatesubject(request,my_id):
 
         else:
             update_subject=Subject.objects.get(pk=my_id)
-            update_form=Subjectform(instance=update_class)
+            update_form=Subjectform(instance=update_subject)
         return render(request,'Student/updatesubject.html',{'form':update_form})
