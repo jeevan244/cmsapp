@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import Studentform,Addressform,Courseform,Sessionform,Classform,Subjectform
+from .forms import Studentform,Addressform,Courseform,Sessionform,Classform,Subjectform,Studentmapper
 from .models import Student,Address,Course,Session,Class, Student_class_mapper,Subject
 from django.contrib import messages
 # Create your views here.
@@ -109,7 +109,7 @@ def session(request):
 
     else:
         session_form=Sessionform()
-    return render(request,'Student/session.html',{'form':session_form, 'data':show_data})
+    return render(request,'Student/session.html',{'form':session_form})
 
 def showsession(request):
     showdata=Session.objects.all()
@@ -163,6 +163,16 @@ def studentmapper(request):
     showdata=Student_class_mapper.objects.all()
     return render(request,'Student/studentmapper.html',{'form':showdata})
 
+def mapper(request):
+    if request.method=="POST":
+            mapperform=Studentmapper(request.POST)
+            if mapperform.is_valid():
+                mapperform.save()
+                mapperform=Studentmapper()
+    else:
+        mapperform=Studentmapper()
+    return render(request,'Student/mapper.html',{'form':mapperform})
+
 
 def subject(request):
     if request.method=="POST":
@@ -191,3 +201,7 @@ def updatesubject(request,my_id):
             update_subject=Subject.objects.get(pk=my_id)
             update_form=Subjectform(instance=update_subject)
         return render(request,'Student/updatesubject.html',{'form':update_form})
+
+def studentdetails(request,my_id):
+    details=Student.objects.get(pk=my_id)
+    return render(request,'Student/details.html',{'data':details})

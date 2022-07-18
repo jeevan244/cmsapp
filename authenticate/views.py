@@ -12,15 +12,21 @@ from django.contrib import messages
 def register(request):
     if request.method=="POST":
         user_form=RegisterForm(request.POST)
-        custom_user_form=UserregisterForm(request.POST)
-        if user_form.is_valid():
+        custom_form=UserregisterForm(request.POST)
+        if user_form.is_valid and custom_form.is_valid():
             user=user_form.save()
+            customuser=custom_form.save(commit=False)
+            customuser.user=user
+            customuser.save()
             user_form=RegisterForm()
+            return HttpResponse({"success"})
+            
             
                      
     else:
         user_form=RegisterForm()
-    return render(request,'authenticate/register.html',{'form':user_form})
+        custom_form=UserregisterForm()
+    return render(request,'authenticate/register.html',{'form':user_form, 'customform':custom_form})
 
 
 def show_register_user(request):
@@ -43,6 +49,16 @@ def update(request,my_id):
 
     return render (request, 'authenticate/updateuser.html', {'update_user':update_user})
 
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/login/')
+
+
+def user_profile(request):
+    return render(request,'authenticate/profile.html',{'name':request.user})
+
+
 def user_login(request):
     if not request.user.is_authenticated:
         if request.method=="POST":
@@ -52,14 +68,34 @@ def user_login(request):
                     uname=form_login.cleaned_data['username']
                     upass=form_login.cleaned_data['password']
                     user=authenticate(username=uname, password=upass)
+                    print(user.is_superuser)
                     if user is not None:
-                        login(request,user)
-                        messages.success(request,'logged in successfully')
-                        return HttpResponseRedirect('/profile/')
+                        if not user.is_superuser and user.customuser.usertype == "Student":
+                            print("student")
+                            login(request,user,)
+                            messages.success(request,'logged in successfully')
+                            return HttpResponseRedirect('/studentprofile/')
+
+                        elif not user.is_superuser and user.customuser.usertype == "Faculty":
+                            print("faculty")
+                            login(request,user)
+                            messages.success(request,'logged in successfully')
+                            return HttpResponseRedirect('/facultyprofile/')
+
+                        elif user.is_superuser:
+                            print("superuser")
+                            login(request,user)
+                            messages.success(request,'logged in successfully')
+                            return HttpResponseRedirect('/profile/')
+
+                        else:
+                            print("else")
+                            return HttpResponse({"please signup first"})
 
                 else:
                     return HttpResponse({"please provide correct username and password !!!!"})
             except Exception as e:
+                print("error ->",e)
                 return HttpResponse({"error":e})
         else:
             form_login=AuthenticationForm()
@@ -68,10 +104,8 @@ def user_login(request):
         return HttpResponseRedirect('/profile/')
 
 
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/login/')
+def studentprofile(request):
+    return render(request,'authenticate/studentprofile.html',{'name':request.user})
 
-
-def user_profile(request):
-    return render(request,'authenticate/profile.html',{'name':request.user})
+def facultyprofile(request):
+    return render(request,'authenticate/facultyprofile.html',{'name':request.user})

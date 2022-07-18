@@ -1,7 +1,9 @@
 from django.db import models
+from authenticate.models import Customuser
 
 # Create your models here.
 class Teacher(models.Model):
+    access=models.OneToOneField(Customuser, on_delete=models.CASCADE, related_name='teacher')
     gender_choices = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -17,6 +19,8 @@ class Teacher(models.Model):
     )
 
     department = models.CharField(max_length=5, choices=department_choice, default='ME')
+
+    is_HOD = models.BooleanField(default=False)
 
     phone=models.IntegerField()
     

@@ -3,6 +3,7 @@ from .import views
 
 urlpatterns = [
     path('student/',views.student, name='student'),
+    path('mapper/',views.mapper, name='mapper'),
     path('address/',views.address, name='address'),
     path('subject/',views.subject, name='subject'),
     path('course/',views.course, name='course'),
@@ -10,6 +11,7 @@ urlpatterns = [
     path('class/',views.studentclass, name='class'),
     path('studentmapper/',views.studentmapper, name='studentmapper'),
     path('showstudent/',views.showstudent,name='showstudent'),
+    path('details/<int:my_id>/',views.studentdetails,name='details'),
     path('showsubject/',views.showsubject,name='showsubject'),
     path('showaddress/',views.showaddress,name='showaddress'),
     path('showsession/',views.showsession,name='showsession'),

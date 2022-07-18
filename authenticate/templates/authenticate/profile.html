@@ -9,6 +9,7 @@
 <body>
     <h3>welcome<hr>{{name}}</h3>
     <form action="" method="POST">
+        {% csrf_token %}
     {% if messages %}
      {% for message in messages %}
      <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
