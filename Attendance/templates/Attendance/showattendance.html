@@ -6,22 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        table, tr, th, td{
+        {% comment %} table, tr, th, td{
             border: 1px solid black;
+        } {% endcomment %}
+        .main{
+            display:flex;
+            flex-flow:row wrap;
+            justify-content:space-around;
+            height:65px;
+            width:auto;
+            background: white;
+            border: 2px solid black;
+            border-radius: 20px;
+        }
+        .atend{
+            padding:0 10px;
+            border: 1px solid black;
+            margin: 5px;
+            height:50px;
+            width:300px;
+            background-color:grey;
+            border-radius:10px;
+        }
+        .name{
+            align-text:center;
         }
     </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>subject</th>
-            <th>date</th>
-        </tr>
-        {% for f in  form %}
-        <tr>
-            <td>{{f.subject}}</td>
-            <td>{{f.date}}</td>
-            <td> <a href="{% url 'updateattendance' f.id %}">update click</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h2>Attendance</h2>
+    {% for f in  form %}
+    <div class="main">
+        <div class="atend">
+            Subject:<br>{{f.subject}}
+        </div>
+        <div class="atend">
+            Date:<br>{{f.date}}
+        </div>
+    </div>
+    {% for d in f.studentattendance.all %}
+    <h2>Student</h2>
+    <div class="name">
+        <b>Studentname:&nbsp;</b><b>{{d.student.user_type.user.username}} 
+
+
+            <input type="checkbox" name="present" value="present"/>    
+            <label>Present</label> <br> </b>
+    </div>
+    {% endfor %}
+    {% endfor %}
+</body>
+</html>

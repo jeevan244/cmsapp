@@ -1,113 +1,58 @@
-<!DOCTYPE html>
-{% load crispy_forms_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student details</title>
-    <style>
-        body {
-            background-color: aqua;
+{% extends 'Student/base.html' %}
+{% load static %}
 
-        }
-    
-        .container {
-            width: auto;
-            height: 500px;
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row;
-            border: 2px solid black;
-            background-color: orange;
-        }
+{% block css %}
+   <link rel="stylesheet" type="text/css" href="{% static 'Student/css/details.css' %}"/>
+{% endblock %}
 
-        .user{
-            flex:1;
-            border: 1px solid black;
-            background-color: grey;
-        }
+{% block title %}details{% endblock%}
 
-        .user h3{
-            text-align: center;
-            text-decoration: underline;
-        }
+{% block navbar %}
+<div class="person">
+   <div class="time">
+       Username:{{data.user_type.user.username}}
+   </div>
+   <div class="time">
+       Last login:{{data.user_type.user.last_login}}
+   </div>
+</div>
+{% endblock %}
 
-        .user p{
-            border: 1px solid black;
-        }
-
-        .study{
-            flex:1;
-            border: 1px solid black;
-            background-color: lightgreen;
-
-        }
-        .study h3{
-            text-align: center;
-            text-decoration: underline;
-        }
-
-        .study p{
-            border: 1px solid black;
-        }
-
-        .address{
-            flex:1;
-            border: 1px solid black;
-            background-color: skyblue;
-        }
-
-        .address h3{
-            text-align: center;
-            text-decoration: underline;
-        }
-
-        .address p{
-            border: 1px solid black;
-        }
-
-    </style>
-</head>
-<body>
-        <h1> Detail Page&nbsp;&nbsp;{{data.user_type.user.username}}</h1>
-            <div class="container">
-                <div class="user">
-                    <h3>Personal Details</h3>
-                    <p><b>User type:&nbsp;&nbsp;</b>{{data.user_type}}</p>
-                    <p><b>Gender:&nbsp;&nbsp;</b>{{data.gender}}</p>
-                    <p><b>Roll No:&nbsp;&nbsp;</b>{{data.role_number}}</p>
-                    <p><b>Phone:&nbsp;&nbsp;</b>{{data.phone}}</p>
-                    <p><b>Blood Group:&nbsp;&nbsp;</b>{{data.blood_group}}</p>
-                    <p><b>User Type:&nbsp;&nbsp;</b>{{data.user_type.usertype}}</p>
-                    <p><b>Username:&nbsp;&nbsp;</b>{{data.user_type.user.username}}</p>
-                    <p><b>First Name:&nbsp;&nbsp;</b>{{data.user_type.user.first_name}}</p>
-                    <p><b>Last Name:&nbsp;&nbsp;</b></b>{{data.user_type.user.last_name}}</p>
-                    <p><b>Email:&nbsp;&nbsp;</b>{{data.user_type.user.email}}</p>
-                </div>
-                <div class="address">
-                        <h3>Address Details</h3>
-                     {% for t in data.user_type.addresses.all %}
-                        <p><b>State:&nbsp;&nbsp;</b>{{t.state}}</p>
-                        <p><b>City:&nbsp;&nbsp;</b>{{t.city}}</p>
-                        <p><b>Pincode:&nbsp;&nbsp;</b>{{t.pincode}}</p>
-                     {% endfor %}
-                </div>
-                <div class="study">
-                       <h3>Course Details</h3>
-                     {% for d in data.mapper.all %}
-                     <p><b>Department:&nbsp;&nbsp;</b>{{d.student_class.department}}</p>
-                        <p><b>Year:&nbsp;&nbsp;</b>{{d.student_class.year}}</p>
-                        <p><b>Course Title:&nbsp;&nbsp;</b>{{d.student_class.course.course_title}}</p>
-                        <p><b>Course Duration:&nbsp;&nbsp;</b>{{d.student_class.course.course_duration}}</p>
-                        <p><b>Session Start:&nbsp;&nbsp;</b>{{d.student_class.session.start_year}}</p>
-                        <p><b>Session End:&nbsp;&nbsp;</b>{{d.student_class.session.end_year}}</p>
-                      {% for s in d.student_class.subjectclass.all %}
-                      <p><b>Subject Name:&nbsp;&nbsp;</b>{{s.subject_name}}</p>
-                      <p><b>Subject Code:&nbsp;&nbsp;</b>{{s.subject_code}}</p>
-                      {% endfor %}  
-                     {% endfor %}
-                </div> 
+{% block content %}
+        <h3>Personal Details</h3>
+            <div class="user">
+                <div class="item"><b>User Type:&nbsp;</b>{{data.user_type.usertype}}</div>
+                <div class="item"><b>Username:&nbsp;</b>{{data.user_type.user.username}}</div>
+                <div class="item"><b>First Name:&nbsp;</b>{{data.user_type.user.first_name}}</div>
+                <div class="item"><b>Last Name:&nbsp;</b></b>{{data.user_type.user.last_name}}</div>
+                <div class="item"><b>Email:&nbsp;</b>{{data.user_type.user.email}}</div>
+                {% comment %} <div class="item"><b>User type:&nbsp;</b>{{data.user_type}}</div> {% endcomment %}
+                <div class="item"><b>Gender:&nbsp;</b>{{data.gender}}</div>
+                <div class="item"><b>Roll No:&nbsp;</b>{{data.role_number}}</div>
+                <div class="item"><b>Phone:&nbsp;</b>{{data.phone}}</div>
+                <div class="item"><b>Blood Group:&nbsp;</b>{{data.blood_group}}</div>
             </div>
-</body>
-</html>
+        <h3>Address Details</h3>
+            <div class="address">
+                {% for t in data.user_type.addresses.all %}
+                <div class="pin"><b>State:&nbsp;</b>{{t.state}}</div>
+                <div class="pin"><b>City:&nbsp;</b>{{t.city}}</div>
+                <div class="pin"><b>Pincode:&nbsp;</b>{{t.pincode}}</div>
+                {% endfor %}
+            </div>
+        <h3>Course Details</h3>
+            <div class="study">
+            {% for d in data.mapper.all %}
+                <div class="book"><b>Department:&nbsp;</b>{{d.student_class.department}}</div>
+                <div class="book"><b>Year:&nbsp;</b>{{d.student_class.year}}</div>
+                <div class="book"><b>Course Title:&nbsp;</b>{{d.student_class.course.course_title}}</div>
+                <div class="book"><b>Course Duration:&nbsp;</b>{{d.student_class.course.course_duration}}</div>
+                <div class="book"><b>Session Start:&nbsp;</b>{{d.student_class.session.start_year}}</div>
+                <div class="book"><b>Session End:&nbsp;</b>{{d.student_class.session.end_year}}</div>
+                {% for s in d.student_class.subjectclass.all %}
+                <div class="book"><b>Subject Name:&nbsp;</b>{{s.subject_name}}</div>
+                <div class="book"><b>Subject Code:&nbsp;</b>{{s.subject_code}}</div>
+                {% endfor %}  
+            {% endfor %}
+            </div>         
+{% endblock %}

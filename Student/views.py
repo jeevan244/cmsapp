@@ -46,7 +46,7 @@ def address(request):
 
     else:
         address_form=Addressform()
-    return render(request,'Student/address.html',{'form':address_form,'data':showdata})
+    return render(request,'Student/address.html',{'form':address_form})
 
 def showaddress(request):
     showdata=Address.objects.all()
@@ -76,7 +76,7 @@ def course(request):
             course_form=Courseform()
     else:
         course_form=Courseform()
-    return render(request,'Student/course.html',{'form':course_form, 'data':show_data})
+    return render(request,'Student/course.html',{'form':course_form})
 
 
 def showcourse(request):
@@ -139,7 +139,7 @@ def studentclass(request):
             class_form=Classform()
     else:
         class_form=Classform()
-    return render(request,'Student/class.html',{'form':class_form, 'data':show_data})
+    return render(request,'Student/class.html',{'form':class_form})
 
 def showclass(request):
     showdata=Class.objects.all()

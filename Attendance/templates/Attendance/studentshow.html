@@ -6,24 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        table, tr, th, td{
+        .main{
+            display:flex;
+            flex-flow:row wrap;
+            justify-content:space-around;
+            height:65px;
+            width:auto;
+            background: white;
+            border: 2px solid black;
+            border-radius: 20px;
+        }
+        .atend{
+            padding:0 10px;
             border: 1px solid black;
+            margin: 5px;
+            height:50px;
+            width:300px;
+            background-color:grey;
+            border-radius:10px;
+        }
+        .name{
+            align-text:center;
         }
     </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>student</th>
-            <th>attendance</th>
-            <th>present</th>
-        </tr>
-        {% for f in  form %}
-        <tr>
-            <td>{{f.student}}</td>
-            <td>{{f.attendance}}</td>
-            <td>{{f.is_present}}</td>
-            <td> <a href="{% url 'update' f.id %}">update click</a></td>
-        </tr>
+    <h2>Attendance</h2>
+    
+    <div class="main">
+        <div class="atend">
+            Subject:<br>{{attendance.subject}}
+        </div>
+        <div class="atend">
+            Date:<br>{{attendance.date}}
+        </div>
+    </div>
+    <h2>Student</h1>
+    <div style="padding:10px">
+        <b>Studentname:&nbsp;</b>
+        {% for f in  students %}
+        <div class="name">
+            <b>{{f.user_type.user.username}}</b>
+            <input type="checkbox" class="zing" id="stuid-{{f.id}}" name="present"/>  
+        </div>
         {% endfor %}
-    </table>
+    </div>
+    <input type="submit" onclick=submitAttendance() value="submit">
+
+</body>
+<script>
+    var csrfcookie = function() {
+    var cookieValue = null,
+        name = 'csrftoken';
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+};
+    function submitAttendance(){
+        let elements = document.getElementsByClassName("zing");
+        let students = []
+        let present = []
+        for(var i=0;i<elements.length;i++){
+            students.push(elements[i].getAttribute("id").split("-")[1])
+            console.log(elements[i].getAttributeNames())
+            present.push(elements[i].checked);
+        }
+        console.log(students);
+        console.log(present);
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://127.0.0.1:8000/attendance/create_student_attendance/13/", true); 
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader('X-CSRFToken', csrfcookie());
+        xhttp.onreadystatechange = function() {
+           if (this.readyState == 4 && this.status == 200) {
+             // Response
+             var response = this.responseText;
+           }
+        };
+        var data = {students:students,present:present};
+        xhttp.send(JSON.stringify(data));
+    }
+
+</script>
+</html>
+    

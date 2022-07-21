@@ -50,6 +50,9 @@ class Course(models.Model):
     )
     course_duration = models.CharField(max_length=8, choices=course_duration_choice, default='4 years')
 
+    def __str__(self):
+        return str(self.course_title)+ "-" +str(self.course_duration)
+
 
 
 class Session(models.Model):
@@ -89,7 +92,10 @@ class Class(models.Model):
 
 class Student_class_mapper(models.Model):
     student=models.ForeignKey(Student, on_delete=models.CASCADE, related_name='mapper')
-    student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mapperclass')
+    student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mappers')
+
+    def __str__(self):
+        return str(self.student.user_type.user.username)
 
 
 class Subject(models.Model):
