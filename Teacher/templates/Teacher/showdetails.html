@@ -1,0 +1,43 @@
+{% extends 'Teacher/baseteacher.html' %}
+{% load static %}
+
+{% block css %}
+ <link rel="stylesheet" type="text/css" href="{% static '/Teacher/css/details.css' %}"/>
+{% endblock %}
+
+{% block navbar %}
+<div class="person">
+   <div class="time">
+       Username:{{info.access.user.username}}
+   </div>
+   <div class="time">
+       Last login:{{info.access.user.last_login}}
+   </div>
+</div>
+{% endblock %}
+
+{% block title %}<h2> Teacher Detail page &nbsp;&nbsp;{{info.access.user.username}}</h2>{% endblock %}
+
+{% block content %}
+<h2> Personal Details </h2>
+   <div class="info">
+     <div class="detail"><b>Usertype:&nbsp;</b>{{info.access.usertype}}</div>
+     <div class="detail"><b>Username:&nbsp;</b>{{info.access.user.username}}</div>
+     <div class="detail"><b>Firstname:&nbsp;</b>{{info.access.user.first_name}}</div>
+     <div class="detail"><b>Lastname:&nbsp;</b>{{info.access.user.last_name}}</div>
+     <div class="detail"><b>Email:&nbsp;</b>{{info.access.user.email}}</div>
+     <div class="detail"><b>Gender:&nbsp;</b>{{info.gender}}</div>
+     <div class="detail"><b>Department:&nbsp;</b>{{info.department}}</div>
+     <div class="detail"><b>HOD:&nbsp;</b>{{info.is_HOD}}</div>
+     <div class="detail"><b>Phone:&nbsp;</b>{{info.phone}}</div>
+   </div>
+<h2> Address Details </h2>
+   <div class="address">
+      {% for a in info.access.addresses.all %}
+      <div class="code"><b>City:&nbsp;&nbsp;</b>{{a.city}}</div>
+      <div class="code"><b>State:&nbsp;&nbsp;</b>{{a.state}}</div>
+      <div class="code"><b>Pincode:&nbsp;&nbsp;</b>{{a.pincode}}</div>
+      {% endfor %}
+   </div>
+</div>
+{% endblock %}

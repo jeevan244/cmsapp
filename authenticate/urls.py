@@ -6,6 +6,8 @@ urlpatterns = [
     path('login/',views.user_login, name='login'),
     path('logout/', views.user_logout, name="logout"),
     path('profile/',views.user_profile, name="profile"),
+    path('studentprofile/',views.studentprofile, name="studentprofile"),
+    path('facultyprofile/',views.facultyprofile, name="facultyprofile"),
     path('update/<int:my_id>/', views.update, name='update'),
     path('delete/<int:my_id>/', views.delete, name='delete'),
 ]

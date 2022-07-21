@@ -50,6 +50,9 @@ class Course(models.Model):
     )
     course_duration = models.CharField(max_length=8, choices=course_duration_choice, default='4 years')
 
+    def __str__(self):
+        return str(self.course_title)+ "-" +str(self.course_duration)
+
 
 
 class Session(models.Model):
@@ -70,9 +73,9 @@ class Class(models.Model):
 
     department = models.CharField(max_length=5, choices=department_choice, default='ME')
 
-    course=models.ForeignKey(Course, on_delete=models.CASCADE, related_name='classes')
+    course=models.ForeignKey(Course, on_delete=models.CASCADE, related_name='classcourse')
 
-    session=models.ForeignKey(Session, on_delete=models.CASCADE, related_name='classes')
+    session=models.ForeignKey(Session, on_delete=models.CASCADE, related_name='classsession')
 
     year_choice=(
         ('1st year','1st year'),
@@ -89,14 +92,17 @@ class Class(models.Model):
 
 class Student_class_mapper(models.Model):
     student=models.ForeignKey(Student, on_delete=models.CASCADE, related_name='mapper')
-    student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mapper')
+    student_class=models.ForeignKey(Class, on_delete=models.CASCADE, related_name='mappers')
+
+    def __str__(self):
+        return str(self.student.user_type.user.username)
 
 
 class Subject(models.Model):
     subject_name=models.CharField(max_length=100)
     subject_code=models.IntegerField()
-    subject_teacher=models.ForeignKey(Teacher, on_delete=models.CASCADE,related_name='subject')
-    student_class=models.ForeignKey(Class, on_delete=models.CASCADE,related_name='subject')
+    subject_teacher=models.ForeignKey(Teacher, on_delete=models.CASCADE,related_name='subjectteacher')
+    student_class=models.ForeignKey(Class, on_delete=models.CASCADE,related_name='subjectclass')
 
     def __str__(self):
         return self.subject_name

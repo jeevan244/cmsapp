@@ -33,3 +33,7 @@ def updateteacher(request,my_id):
         update_teacher=Teacher.objects.get(pk=my_id)
         update_form=Teacherform(instance=update_student)
     return render(request,'Teacher/updateteacher.html',{'form':update_form})
+
+def showdetails(request,my_id):
+    information=Teacher.objects.get(pk=my_id)
+    return render(request,'Teacher/showdetails.html',{'info':information})

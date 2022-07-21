@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import Studentform,Addressform,Courseform,Sessionform,Classform
-from .models import Student,Address,Course,Session,Class, Student_class_mapper
+from .forms import Studentform,Addressform,Courseform,Sessionform,Classform,Subjectform,Studentmapper
+from .models import Student,Address,Course,Session,Class, Student_class_mapper,Subject
 from django.contrib import messages
 # Create your views here.
 
@@ -46,7 +46,7 @@ def address(request):
 
     else:
         address_form=Addressform()
-    return render(request,'Student/address.html',{'form':address_form,'data':showdata})
+    return render(request,'Student/address.html',{'form':address_form})
 
 def showaddress(request):
     showdata=Address.objects.all()
@@ -76,7 +76,7 @@ def course(request):
             course_form=Courseform()
     else:
         course_form=Courseform()
-    return render(request,'Student/course.html',{'form':course_form, 'data':show_data})
+    return render(request,'Student/course.html',{'form':course_form})
 
 
 def showcourse(request):
@@ -109,7 +109,7 @@ def session(request):
 
     else:
         session_form=Sessionform()
-    return render(request,'Student/session.html',{'form':session_form, 'data':show_data})
+    return render(request,'Student/session.html',{'form':session_form})
 
 def showsession(request):
     showdata=Session.objects.all()
@@ -139,7 +139,7 @@ def studentclass(request):
             class_form=Classform()
     else:
         class_form=Classform()
-    return render(request,'Student/class.html',{'form':class_form, 'data':show_data})
+    return render(request,'Student/class.html',{'form':class_form})
 
 def showclass(request):
     showdata=Class.objects.all()
@@ -163,6 +163,16 @@ def studentmapper(request):
     showdata=Student_class_mapper.objects.all()
     return render(request,'Student/studentmapper.html',{'form':showdata})
 
+def mapper(request):
+    if request.method=="POST":
+            mapperform=Studentmapper(request.POST)
+            if mapperform.is_valid():
+                mapperform.save()
+                mapperform=Studentmapper()
+    else:
+        mapperform=Studentmapper()
+    return render(request,'Student/mapper.html',{'form':mapperform})
+
 
 def subject(request):
     if request.method=="POST":
@@ -171,7 +181,7 @@ def subject(request):
             subject_form.save()
             subject_form=Subjectform()
     else:
-        Subject_form=Subjectform()
+        subject_form=Subjectform()
     return render(request,'Student/subject.html',{'form':subject_form})
 
 def showsubject(request):
@@ -181,7 +191,7 @@ def showsubject(request):
 def updatesubject(request,my_id):
         if request.method=="POST":
             update_subject=Subject.objects.get(pk=my_id)
-            update_form=Subjectform(request.POST,instance=update_class)
+            update_form=Subjectform(request.POST,instance=update_subject)
             if update_form.is_valid():
                 update_subject=update_form.save(commit=False)
                 update_subject=update_form.save()
@@ -189,5 +199,9 @@ def updatesubject(request,my_id):
 
         else:
             update_subject=Subject.objects.get(pk=my_id)
-            update_form=Subjectform(instance=update_class)
+            update_form=Subjectform(instance=update_subject)
         return render(request,'Student/updatesubject.html',{'form':update_form})
+
+def studentdetails(request,my_id):
+    details=Student.objects.get(pk=my_id)
+    return render(request,'Student/details.html',{'data':details})
