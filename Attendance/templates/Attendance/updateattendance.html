@@ -8,10 +8,56 @@
     <title>update attendance</title>
 </head>
 <body>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-        <input type="submit" value="save">
-    </form>
+
+        <label for="Subjects">Choose a Subject:</label>
+        <select name="Subject" id="subject">
+            {% for subject in subjects %}
+            <option id={{subject.id}}>{{subject.subject_name}}</option>    
+             {% endfor %}    
+        </select><br><br>
+        <label for="date">date</label>
+        <input type="date" id="date" name="date"><br><br>
+        <input type="button" onclick=submit() value="submit" >
+   
 </body>
+<script>
+    var csrfcookie = function() {
+        var cookieValue = null,
+            name = 'csrftoken';
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function submit(){
+        let elements = document.getElementById("subject");
+        let elm = document.getElementById("date");
+        let subject = elements.options[elements.selectedIndex].getAttribute("id")
+        let date = elm.value
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://127.0.0.1:8000/attendance/update_student_attendance/", true); 
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader('X-CSRFToken', csrfcookie());
+        xhttp.onreadystatechange = function() {
+           if (this.readyState == 4 && this.status == 200) {
+             // Response
+             var response = this.responseText;
+             console.log(response)
+             response = JSON.parse(response)
+const url = "http://127.0.0.1:8000/attendance/studentupdateattendance/"+response.attendance
+window.location.href = url;
+
+           }
+        };
+        var data = {subject:subject,date:date};
+        xhttp.send(JSON.stringify(data));
+    }
+</script>
 </html>

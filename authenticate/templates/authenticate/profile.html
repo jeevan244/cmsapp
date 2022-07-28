@@ -1,20 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>profile</title>
-</head>
-<body>
-    <h3>welcome<hr>{{name}}</h3>
-    <form action="" method="POST">
-        {% csrf_token %}
-    {% if messages %}
-     {% for message in messages %}
-     <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
-     {% endfor %}
-    {% endif %}
-    <a href="{% url 'logout' %}">logout<a/><br>
-</body>
-</html>
+{% extends 'authenticate/base.html'%}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'authenticate/css/student.css' %}"/>
+{% endblock %}
+{% block title %}<h2>Adminprofile</h2>{% endblock %}
+{% block navbar %}
+<div class="person">
+<div class="time">
+    Username:{{user.username}}
+</div>
+<div class="time">
+    Last login:{{user.last_login}}
+</div>
+</div>
+{% endblock %}
+{% block content %}
+<h3>Details</h3>
+            <div class="user">
+                <div class="item"><b>Name:&nbsp;</b>{{user.username}}</div>
+                <div class="item"><b>email:&nbsp;</b>{{user.email}}</div>
+            </div>
+{% if messages %}
+{% for message in messages %}
+<small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
+{% endfor %}
+{% endif %}
+{% endblock %}

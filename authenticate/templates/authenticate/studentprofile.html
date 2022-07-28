@@ -1,13 +1,32 @@
 {% extends 'authenticate/base.html'%}
-{% block title %}Studentprofile{% endblock %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'authenticate/css/student.css' %}"/>
+{% endblock %}
+{% block title %}<h2>Studentprofile</h2>{% endblock %}
+{% block navbar %}
+<div class="person">
+<div class="time">
+    Username:{{student.user_type.user.username}}
+</div>
+<div class="time">
+    Last login:{{student.user_type.user.last_login}}
+</div>
+</div>
+{% endblock %}
 {% block content %}
-    <h3>welcome<hr>{{name}}</h3>
-    <form action="" method="POST">
-        {% csrf_token %}
-    {% if messages %}
-     {% for message in messages %}
-     <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
-     {% endfor %}
-    {% endif %}
+<h3>Details</h3>
+            <div class="user">
+                <div class="item"><b>Name:&nbsp;</b>{{student.user_type.user.username}}</div>
+                <div class="item"><b>Gender:&nbsp;</b>{{student.gender}}</div>
+                <div class="item"><b>Roll No:&nbsp;</b>{{student.role_number}}</div>
+                <div class="item"><b>Phone:&nbsp;</b>{{student.phone}}</div>
+                <div class="item"><b>Blood Group:&nbsp;</b>{{student.blood_group}}</div>
+                {% if messages %}
+                {% for message in messages %}
+                <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
+                {% endfor %}
+               {% endif %}
+            </div>
+   
 {% endblock %}
     

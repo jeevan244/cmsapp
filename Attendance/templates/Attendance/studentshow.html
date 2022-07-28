@@ -49,7 +49,7 @@
             <b>{{f.user_type.user.username}}</b>
             <input type="checkbox" class="zing" id="stuid-{{f.id}}" name="present"/>  
         </div>
-        {% endfor %}
+        {% endfor %}:?''
     </div>
     <input type="submit" onclick=submitAttendance() value="submit">
 
@@ -94,7 +94,6 @@
         var data = {students:students,present:present};
         xhttp.send(JSON.stringify(data));
     }
-
 </script>
 </html>
     

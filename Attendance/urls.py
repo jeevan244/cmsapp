@@ -6,5 +6,6 @@ urlpatterns = [
     path('showattendance/',views.show_attendance, name='showattendance'),
     path('studentattendance/',views.student_attendance, name='studentattendance'),
     path('create_student_attendance/<int:id>/',views.create_student_attendance, name='showstudentattendance'),
-    path('updateattendance/<int:my_id>/',views.updateattendance, name='updateattendance'),
+    path('update_student_attendance/',views.updateattendance, name='updateattendance'),
+    path('studentupdateattendance/<int:id>/',views.updatestudentattendance, name='updatestudentupdateattendance'),
 ]

@@ -6,6 +6,8 @@ from.models import Customuser
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from Teacher.models import Teacher
+from Student.models import Student
 # Create your views here.
 
  
@@ -20,9 +22,7 @@ def register(request):
             customuser.save()
             user_form=RegisterForm()
             return HttpResponse({"success"})
-            
-            
-                     
+                             
     else:
         user_form=RegisterForm()
         custom_form=UserregisterForm()
@@ -55,8 +55,9 @@ def user_logout(request):
     return HttpResponseRedirect('/login/')
 
 
-def user_profile(request):
-    return render(request,'authenticate/profile.html',{'name':request.user})
+def user_profile(request,id):
+    user=User.objects.get(id=id)
+    return render(request,'authenticate/profile.html',{'user':user})
 
 
 def user_login(request):
@@ -68,28 +69,29 @@ def user_login(request):
                     uname=form_login.cleaned_data['username']
                     upass=form_login.cleaned_data['password']
                     user=authenticate(username=uname, password=upass)
-                    print(user.is_superuser)
                     if user is not None:
                         if not user.is_superuser and user.customuser.usertype == "Student":
-                            print("student")
                             login(request,user,)
+                            student=Student.objects.get(user_type__user__id=user.id)
                             messages.success(request,'logged in successfully')
-                            return HttpResponseRedirect('/studentprofile/')
+                            return HttpResponseRedirect(f'/studentprofile/{student.id}')
 
                         elif not user.is_superuser and user.customuser.usertype == "Faculty":
-                            print("faculty")
                             login(request,user)
+                            teacher=Teacher.objects.get(access__user__id=user.id)
+                            # print(teacher.id)
                             messages.success(request,'logged in successfully')
-                            return HttpResponseRedirect('/facultyprofile/')
+                            return HttpResponseRedirect(f'/facultyprofile/{teacher.id}')
 
                         elif user.is_superuser:
-                            print("superuser")
                             login(request,user)
+                            user=User.objects.get(id=user.id)
+                            # user=User.objects.filter(is_superuser=True).values_list('id')
+                            # print(user.id)
                             messages.success(request,'logged in successfully')
-                            return HttpResponseRedirect('/profile/')
+                            return HttpResponseRedirect(f'/profile/{user.id}')
 
                         else:
-                            print("else")
                             return HttpResponse({"please signup first"})
 
                 else:
@@ -104,8 +106,11 @@ def user_login(request):
         return HttpResponseRedirect('/profile/')
 
 
-def studentprofile(request):
-    return render(request,'authenticate/studentprofile.html',{'name':request.user})
+def studentprofile(request, id):
+    student=Student.objects.get(id=id)
+    return render(request,'authenticate/studentprofile.html',{'student':student})
 
-def facultyprofile(request):
-    return render(request,'authenticate/facultyprofile.html',{'name':request.user})
+def facultyprofile(request, id):
+    teacher=Teacher.objects.get(id=id)
+    print(teacher)
+    return render(request,'authenticate/facultyprofile.html',{'teacher':teacher})

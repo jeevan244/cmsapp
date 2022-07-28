@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class</title>
+</head>
+<body>
+    {{attendance.subject}}<br>
+    {{attendance.date}}<br>
+    <hr>
+    {% for f in students %}
+    {{f.student.user_type.user.username}}:&nbsp;&nbsp;
+    {% if f.is_present == True %}
+      <input type="checkbox" checked/>
+    {% else %}
+    <input type="checkbox"/>
+    {% endif%}
+    <br/>
+    {% endfor %}
+    <button type="submit"  value="Submit">Submit</button>
+</body>
+</html>

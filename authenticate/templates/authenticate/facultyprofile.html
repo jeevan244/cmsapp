@@ -1,21 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>facultyprofile</title>
-</head>
-<body>
-    <h3>welcome<hr>{{name}}</h3>
-    <form action="" method="POST">
-        {% csrf_token %}
-    {% if messages %}
-     {% for message in messages %}
-     <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
-     {% endfor %}
-    {% endif %}<br><br><hr>
-    <a href="{% url 'showteacher' %}">details<a/><br>
-    <a href="{% url 'logout' %}">logout<a/><br>
+{% extends 'authenticate/base.html'%}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'authenticate/css/student.css' %}"/>
+{% endblock %}
+{% block title %}<h2>Facultyprofile</h2>{% endblock %}
+{% block navbar %}
+<div class="person">
+<div class="time">
+    Username:{{teacher.access.user.username}}
+</div>
+<div class="time">
+    Last login:{{teacher.access.user.last_login}}
+</div>
+</div>
+{% endblock %}
+{% block content %}
+<h3>Details</h3>
+            <div class="user">
+                <div class="item"><b>Name:&nbsp;</b>{{teacher.access.user.username}}</div>
+                <div class="item"><b>Gender:&nbsp;</b>{{teacher.gender}}</div>
+                <div class="item"><b>Department:&nbsp;</b>{{teacher.department}}</div>
+                <div class="item"><b>HOD:&nbsp;</b>{{teacher.is_HOD}}</div>
+                <div class="item"><b>Contact no:&nbsp;</b>{{teacher.phone}}</div>
+                {% comment %} {% if messages %}
+                {% for message in messages %}
+                <small>{% if messages.tags %} class="{{message.tags}}"{% endif %}>{{message}}</small>
+                {% endfor %}
+               {% endif %} {% endcomment %}
+            </div>
+{% endblock %}
     </body>
     </html>

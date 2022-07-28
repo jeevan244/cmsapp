@@ -1,25 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'authenticate/css/base.css' %}"/>
+    {% block css %}
+
+    {% endblock %}
     {% block title %}<title>Basepage</title>{% endblock %}
 </head>
 <body>
-     {% block content %}
+    {% block navbar %}
+   
+    {% endblock %}
+    <div class="sidebar">
+        <header>Profile</header>
+        <ul>
+           <li><a class="active" href="#">Profile</a></li>
+            <li><a href="#">Subjects</a></li>
+            <li><a href="#">Attendance</a></li>
+            <li><a href="{% url 'logout' %}">logout</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        {% block content %}
 
-
-     {% endblock %}
-<footer>
-    <ul>
-        <li><a href="{% url 'showstudent' %}">details<a/></li>
-        <li><a href="{% url 'showaddress' %}">address<a/></li>
-        <li><a href="{% url 'showcourse' %}">course<a/></li>
-        <li><a href="{% url 'showsubject' %}">subjects<a/></li>
-        <li><a href="{% url 'showclass' %}">class<a/></li>
-        <li><a href="{% url 'logout' %}">logout<a/></li>
-    </ul>
-</footer>
+        {% endblock %}
+    </div>
 </body>
 </html>

@@ -1,9 +1,10 @@
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from .models import Attendance, Student_Attendance
-from Student.models import Student
+from Student.models import Student, Subject
 from .forms import Attendanceform, Studentattendanceform
+from Teacher.models import Teacher
 # Create your views here.
 
 def attendance(request):
@@ -22,19 +23,25 @@ def show_attendance(request):
     return render(request,'Attendance/showattendance.html',{'form':showdata})
 
 
-def updateattendance(request,my_id):
+def updateattendance(request):
     if request.method=="POST":
-        update_attendance=Attendance.objects.get(pk=my_id)
-        update_form=Attendanceform(request.POST,instance=update_attendance)
-        if update_form.is_valid():
-            update_attendance=update_form.save(commit=False)
-            update_attendance=update_form.save()
-            return HttpResponseRedirect('/attendance/showattendance')
+        data = request.body.decode('utf-8')
+        import json
+        data = json.loads(data)
+        attendance = Attendance.objects.filter(subject_id=data["subject"], date__date=data["date"])
+        print(attendance)
+        if attendance and attendance.first():
+            return JsonResponse({"attendance":attendance.first().id})
+        else:
+            print("return")
+            return JsonResponse({"detail":"No Attendance for given subject and date."}, safe=False)
 
-    else:
-        update_attendance=Attendance.objects.get(pk=my_id)
-        update_form=Attendanceform(instance=update_attendance)
-    return render(request,'Attendance/updateattendance.html',{'form':update_form})
+
+
+    elif request.method=="GET":
+        teacher=Teacher.objects.get(access__user=request.user)
+        subjects=Subject.objects.filter(subject_teacher=teacher)
+        return render(request,'Attendance/updateattendance.html',{'subjects':subjects})
 
 
 
@@ -53,7 +60,6 @@ def create_student_attendance(request, id):
     if request.method=="GET":
         attendance = Attendance.objects.get(id=id)
         students=Student.objects.filter(mapper__student_class=attendance.subject.student_class).distinct()
-        print(students)
         return render(request,'Attendance/studentshow.html',{'attendance':attendance, "students":students})
     elif request.method=="POST":
         data = request.body.decode('utf-8')
@@ -65,3 +71,23 @@ def create_student_attendance(request, id):
             student_attendance.save()
             student_attendances.append(student_attendance)
         return HttpResponse({"students":student_attendance})
+
+def updatestudentattendance(request, id):
+    if request.method=="GET":
+        attendance = Attendance.objects.get(id=id)
+        students=Student_Attendance.objects.filter(attendance=attendance)
+        print(students)
+        return render(request,'Attendance/studentupdateattendance.html',{'attendance':attendance, "students":students})
+    elif request.method=="POST":
+        data = request.body.decode('utf-8')
+        import json
+        data = json.loads(data)
+        student_attendances = []
+        for idx, item in enumerate(data.get("students")):
+            student_attendance = Student_Attendance(attendance_id=id,is_present=data.get("present")[idx])
+            student_attendance.save()
+            student_attendances.append(student_attendance)
+        return HttpResponse({"students":student_attendance})
+        return render(request,'Attendance/studentupdateattendance.html',{"data":attendance})
+    # write method for post call
+    # data to come is studentattendance id and is_present
